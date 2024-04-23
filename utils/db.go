@@ -39,16 +39,18 @@ func CreateTable(db *sql.DB) {
 
 
     _, err = db.Exec(`
-        CREATE TABLE IF NOT EXISTS ChatMessage (
+       CREATE TABLE ChatMessage (
             message_id INT PRIMARY KEY AUTO_INCREMENT,
+            post_id INT,
             user_id INT,
-            message_content TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    `)
+            message_content TEXT  ,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (post_id) REFERENCES TopicPost(post_id),
+            FOREIGN KEY (user_id) REFERENCES AnonymousUser(user_id)
+      );
+  `)
     if err != nil {
         fmt.Println("Error creating  chat table:", err)
         return
     }
-
-  }
+}
