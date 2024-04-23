@@ -1,11 +1,14 @@
 package utils
 
-import "database/sql"
-  
+import (
+  "database/sql"
+  "fmt"
+)
+
 func CreateTable(db *sql.DB) {
   // Execute SQL statement to create table
 
-    _, err = db.Exec(`
+  _, err := db.Exec(`
         CREATE TABLE Topics (
             post_id INT PRIMARY KEY AUTO_INCREMENT,
             topic_title VARCHAR(255),
@@ -48,4 +51,4 @@ func CreateTable(db *sql.DB) {
         return
     }
 
-}
+  }
