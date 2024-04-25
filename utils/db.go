@@ -11,8 +11,8 @@ func CreateTable(db *sql.DB) error {
 	_, err := db.Exec(`
         CREATE TABLE IF NOT EXISTS Topics  (
             post_id INT PRIMARY KEY AUTO_INCREMENT,
-            topic_title VARCHAR(255),
-            topic_content TEXT,
+            title VARCHAR(255),
+            description TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     `)
