@@ -23,7 +23,7 @@ func Home() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><form><input type=\"text\" method=\"post\"> <input type=\"submit\"></form></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Welcome</h1><form id=\"usernameForm\" hx-post=\"/\" hx-target=\"#mainContent\"><label for=\"username\">Enter Username:</label><br><input type=\"text\" id=\"username\" name=\"username\" required><br><button type=\"submit\">Submit</button></form><!-- This div will be replaced by content loaded dynamically --><div id=\"mainContent\"><p>hirsfi</p></div><!-- Include HTMX library --><script src=\"https://cdn.jsdelivr.net/npm/htmx.org/dist/htmx.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
