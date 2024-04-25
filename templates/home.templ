@@ -3,19 +3,15 @@ package templates
 
 templ Home() {
    <h1>Welcome</h1>
-    <form id="usernameForm" hx-post="/" hx-target="#mainContent">
+    <form id="usernameForm" hx-post="/usernamer" >
+
         <label for="username">Enter Username:</label><br/>
         <input type="text" id="username" name="username" required/><br/>
         <button type="submit">Submit</button>
     </form>
 
-    <!-- This div will be replaced by content loaded dynamically -->
-    <div id="mainContent">
-      <p>
-          hirsfi
-      </p>
-
-    </div>
-
+   
     <!-- Include HTMX library -->
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org/dist/htmx.js"></script>}
+    <script src="node_modules/htmx.org/dist/htmx.js"></script>}
+
+
