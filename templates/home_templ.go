@@ -10,7 +10,9 @@ import "context"
 import "io"
 import "bytes"
 
-func Home() templ.Component {
+import "github.com/FkLalita/hano/models"
+
+func Username() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,7 +25,31 @@ func Home() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Welcome</h1><form id=\"usernameForm\" hx-post=\"/\" hx-target=\"#mainContent\"><label for=\"username\">Enter Username:</label><br><input type=\"text\" id=\"username\" name=\"username\" required><br><button type=\"submit\">Submit</button></form><!-- This div will be replaced by content loaded dynamically --><div id=\"mainContent\"><p>hirsfi</p></div><!-- Include HTMX library --><script src=\"node_modules/htmx.org/dist/htmx.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Welcome</h1><form id=\"usernameForm\" hx-post=\"/username\"><label for=\"username\">Enter Username:</label><br><input type=\"text\" id=\"username\" name=\"username\" required><br><button type=\"submit\">Submit</button></form><!-- Include HTMX library --><script src=\"node_modules/htmx.org/dist/htmx.js\"></script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func Home(topics []models.Topic) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p>hello</p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

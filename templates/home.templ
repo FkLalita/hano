@@ -1,9 +1,11 @@
 package templates
 
+import "github.com/FkLalita/hano/models"
 
-templ Home() {
+
+templ Username() {
    <h1>Welcome</h1>
-    <form id="usernameForm" hx-post="/usernamer" >
+    <form id="usernameForm" hx-post="/username" >
 
         <label for="username">Enter Username:</label><br/>
         <input type="text" id="username" name="username" required/><br/>
@@ -12,6 +14,13 @@ templ Home() {
 
    
     <!-- Include HTMX library -->
-    <script src="node_modules/htmx.org/dist/htmx.js"></script>}
+    <script src="node_modules/htmx.org/dist/htmx.js"></script>
+}
 
 
+
+templ Home(topics []models.Topic) {
+  <p>
+      hello
+  </p>
+}
