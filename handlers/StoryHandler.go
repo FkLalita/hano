@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 
 	"github.com/FkLalita/hano/models"
@@ -20,5 +21,17 @@ func GetTopicsHandler(db *sql.DB, e echo.Context) error {
 	}
 
 	return utils.Render(e, http.StatusOK, templates.Home(topics))
+
+}
+
+func CreateTopicHandler(db *sql.DB, e echo.Context) error {
+	title := e.FormValue("title")
+	description := e.FormValue("description")
+	err := models.CreateTopic(db, title, description)
+	if err != nil {
+		return e.String(http.StatusInternalServerError, "Failed to create topic")
+
+	}
+	return utils.Render(e, http.StatusOK, nil)
 
 }
