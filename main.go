@@ -34,6 +34,7 @@ func main() {
 		fmt.Println("Connection successful!")
 	}
 	e := echo.New()
+
 	e.POST("/username", func(e echo.Context) error {
 		return handlers.CreateUserHandler(db, e)
 	})
@@ -41,6 +42,13 @@ func main() {
 	e.GET("/", func(e echo.Context) error {
 		return handlers.GetTopicsHandler(db, e)
 
+	})
+	e.POST("/create", func(e echo.Context) error {
+		return handlers.CreateTopicHandler(db, e)
+	})
+
+	e.GET("/create", func(e echo.Context) error {
+		return handlers.CreateTopicHandler(db, e)
 	})
 
 	e.Logger.Fatal(e.Start(":8000"))
