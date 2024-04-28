@@ -1,53 +1,62 @@
 package models
 
 import (
-    "database/sql"
-    "log"
-    "time"
+	"database/sql"
+	"log"
+	"time"
 )
 
 type Topic struct {
-    Title       string
-    Description string
-    CreatedAt   time.Time
+	Title       string
+	Description string
+	CreatedAt   time.Time
 }
 
 // CreateTopic creates a new topic in the database.
 func CreateTopic(db *sql.DB, title string, description string) error {
-    _, err := db.Exec("INSERT INTO Topics (title, description) VALUES (?, ?)", title, description)
-    if err != nil {
-        log.Println("Error creating topic:", err)
-        return err
-    }
-    return nil
+	_, err := db.Exec("INSERT INTO Topics (title, description) VALUES (?, ?)", title, description)
+	if err != nil {
+		log.Println("Error creating topic:", err)
+		return err
+	}
+	return nil
 }
 
 // GetTopics retrieves all topics from the database.
 func GetTopics(db *sql.DB) ([]Topic, error) {
-    rows, err := db.Query("SELECT title, description, created_at FROM Topics")
-    if err != nil {
-        log.Println("Error retrieving topics:", err)
-        return nil, err
-    }
-    defer rows.Close()
+	var topics []Topic
 
-    var topics []Topic
+	rows, err := db.Query("SELECT  title, description,created_at FROM Topics")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
 
-    for rows.Next() {
-        var topic Topic
-        err := rows.Scan(&topic.Title, &topic.Description, &topic.CreatedAt)
-        if err != nil {
-            log.Println("Error scanning topic row:", err)
-            return nil, err
-        }
-        topics = append(topics, topic)
-    }
+	for rows.Next() {
+		var t Topic
+		var createdAtStr []uint8 // Temporary variable to store the string from the database.
 
-    if err := rows.Err(); err != nil {
-        log.Println("Error iterating over topic rows:", err)
-        return nil, err
-    }
+		if err := rows.Scan(&t.Title, &t.Description, &createdAtStr); err != nil {
+			log.Println(err)
+			continue
+		}
 
-    return topics, nil
+		// Convert the createdAtStr ([]uint8) to a string.
+		createdAtString := string(createdAtStr)
+
+		// Parse the createdAtString as time.Time.
+		parsedTime, err := time.Parse("2006-01-02 15:04:05", createdAtString)
+		if err != nil {
+			log.Println(err)
+		} else {
+			t.CreatedAt = parsedTime
+		}
+
+		topics = append(topics, t)
+	}
+
+	if err := rows.Err(); err != nil {
+		log.Println(err)
+	}
+	return topics, nil
 }
-
