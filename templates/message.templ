@@ -1,5 +1,18 @@
 package templates
 
-templ Message(messages []Message) {
+import "github.com/FkLalita/hano/models"
+
+templ Message(messages []models.Message) {
+  <div>
     
+    <p> messages </p>
+    <ul>
+      for _,i := range messages {
+           <ol> { i.MessageContent  } </ol>
+      }
+    </ul>
+    <input type="text" name="message_content"/>
+      
+  </div>   
 }
+
