@@ -3,16 +3,19 @@ package templates
 import "github.com/FkLalita/hano/models"
 
 templ Message(messages []models.Message) {
-  <div>
-    
-    <p> messages </p>
+ <div id="chatSection">
+    <!-- Existing chat rendered here -->
+    <p>hello</p>
     <ul>
-      for _,i := range messages {
-           <ol> { i.MessageContent  } </ol>
-      }
+        <ol id="chatList" hx-get="/messages">
+            <!-- HTMX will populate this list with comments -->
+        </ol>
     </ul>
-    <input type="text" name="message_content"/>
-      
-  </div>   
+  </div>
+
+  <form id="chatForm" hx-post="/add-message">
+    <input type="text" name="message" required/>
+    <button type="submit">Submit</button>
+  </form>
 }
 
