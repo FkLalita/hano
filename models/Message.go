@@ -22,7 +22,7 @@ func CreateMessage(db *sql.DB, topic_id int, user_id int, message_content string
 	return nil
 }
 
-// GetTopics retrieves all topics from the database.
+// GetMessages retrieves all topics from the database.
 func GetMessages(db *sql.DB) ([]Message, error) {
 	var messages []Message
 
