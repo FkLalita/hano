@@ -20,12 +20,14 @@ templ Username() {
 
 
 templ Home(topics []models.Topic) {
-  <p>
-      hello
-
-       for _,i := range topics {
-           { i.Title  }
+  <div>
+    
+    <p> hello </p>
+    <ul>
+      for _,i := range topics {
+           <ol> { i.Title  } </ol>
       }
+    </ul> 
       
-  </p>
+  </div>
 }
