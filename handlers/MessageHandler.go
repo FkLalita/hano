@@ -18,6 +18,6 @@ func GetMessagesHandlers(db *sql.DB, e echo.Context) error {
 		return e.String(http.StatusInternalServerError, "Failed to retrieve messages from the database")
 	}
 
-	return utils.Render(e, http.StatusOK, templates.Home(messages))
+	return utils.Render(e, http.StatusOK, templates.Message(messages))
 
 }
