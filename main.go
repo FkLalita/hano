@@ -51,6 +51,10 @@ func main() {
 		return handlers.CreateTopicHandler(db, e)
 	})
 
+	e.GET("/topics/:id/messages", func(e echo.Context) error {
+		return handlers.GetMessagesHandlers(db, e)
+	})
+
 	e.Logger.Fatal(e.Start(":8000"))
 
 }

@@ -1,7 +1,11 @@
 package templates
 
-import "github.com/FkLalita/hano/models"
+import (
+  "github.com/FkLalita/hano/models"
 
+  "fmt"
+  
+)
 
 templ Username() {
    <h1>Welcome</h1>
@@ -23,11 +27,17 @@ templ Home(topics []models.Topic) {
   <div>
     
     <p> hello </p>
-    <ul>
+    
       for _,i := range topics {
            <ol> { i.Title  } </ol>
+            <p>
+            </p> 
+     
+
+        <p>
+          Enter chat
+        </p>
+        <a href={templ.SafeURL ( fmt.Sprintf("/topics/%d/messages", i.TopicID) )} >chat</a>
       }
-    </ul> 
-      
   </div>
 }

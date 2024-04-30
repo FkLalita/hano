@@ -2,12 +2,12 @@ package templates
 
 import "github.com/FkLalita/hano/models"
 
-templ Message(messages []models.Message) {
+templ GetMessage(messages []models.Message) {
  <div id="chatSection">
     <!-- Existing chat rendered here -->
     <p>hello</p>
     <ul>
-        <ol id="chatList" hx-get="/messages">
+        <ol id="chatList" hx-get="/topics/:id/messages">
             <!-- HTMX will populate this list with comments -->
         </ol>
     </ul>

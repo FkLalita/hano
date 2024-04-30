@@ -26,7 +26,7 @@ func CreateMessage(db *sql.DB, topic_id int, user_id int, message_content string
 func GetMessages(db *sql.DB) ([]Message, error) {
 	var messages []Message
 
-	rows, err := db.Query("SELECT  post_id, user_id, message_content, created_at) FROM ChatMessage")
+	rows, err := db.Query("SELECT  post_id, user_id, message_content, created_at FROM ChatMessage")
 	if err != nil {
 		log.Fatal(err)
 	}

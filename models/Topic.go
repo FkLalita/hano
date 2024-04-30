@@ -7,6 +7,7 @@ import (
 )
 
 type Topic struct {
+	TopicID     int
 	Title       string
 	Description string
 	CreatedAt   time.Time
@@ -26,7 +27,7 @@ func CreateTopic(db *sql.DB, title string, description string) error {
 func GetTopics(db *sql.DB) ([]Topic, error) {
 	var topics []Topic
 
-	rows, err := db.Query("SELECT  title, description,created_at FROM Topics")
+	rows, err := db.Query("SELECT  post_id, title, description,created_at FROM Topics")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,7 +37,7 @@ func GetTopics(db *sql.DB) ([]Topic, error) {
 		var t Topic
 		var createdAtStr []uint8 // Temporary variable to store the string from the database.
 
-		if err := rows.Scan(&t.Title, &t.Description, &createdAtStr); err != nil {
+		if err := rows.Scan(&t.TopicID, &t.Title, &t.Description, &createdAtStr); err != nil {
 			log.Println(err)
 			continue
 		}
