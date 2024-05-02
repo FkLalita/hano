@@ -35,6 +35,9 @@ func main() {
 	}
 	e := echo.New()
 
+	// Serve static files from the node_modules directory
+	e.Static("/node_modules", "node_modules")
+
 	e.POST("/username", func(e echo.Context) error {
 		return handlers.CreateUserHandler(db, e)
 	})
@@ -54,7 +57,10 @@ func main() {
 	e.GET("/topics/:id/messages", func(e echo.Context) error {
 		return handlers.GetMessagesHandlers(db, e)
 	})
+	e.POST("/topics/:id/messages", func(e echo.Context) error {
+		return handlers.SendMessagesHandlers(db, e)
+	})
 
-	e.Logger.Fatal(e.Start(":8000"))
+	e.Logger.Fatal(e.Start(":8080"))
 
 }

@@ -10,9 +10,12 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/FkLalita/hano/models"
+import (
+	"fmt"
+	"github.com/FkLalita/hano/models"
+)
 
-func GetMessage(messages []models.Message) templ.Component {
+func GetMessage(messages []models.Message, post_id int) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -25,7 +28,33 @@ func GetMessage(messages []models.Message) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"chatSection\"><!-- Existing chat rendered here --><p>hello</p><ul><ol id=\"chatList\" hx-get=\"/topics/:id/messages\"><!-- HTMX will populate this list with comments --></ol></ul></div><form id=\"chatForm\" hx-post=\"/add-message\"><input type=\"text\" name=\"message\" required> <button type=\"submit\">Submit</button></form><!-- Include HTMX library --><script src=\"node_modules/htmx.org/dist/htmx.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!-- for _, m := range messages {  --><div class=\"chatSection\"><!-- Existing chat rendered here --><p>hello</p><ul><ol class=\"chatList\" hx-get=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/topics/%d/messages", post_id))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 15, Col: 84}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><!-- HTMX will populate this list with comments --></ol></ul></div><form class=\"chatForm\" hx-post=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/topics/%d/messages", post_id))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 21, Col: 80}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input type=\"text\" name=\"message\" required> <button type=\"submit\">Submit</button></form><!-- Include HTMX library --><script src=\"/node_modules/htmx.org/dist/htmx.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

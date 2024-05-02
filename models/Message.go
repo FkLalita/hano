@@ -14,7 +14,7 @@ type Message struct {
 }
 
 func CreateMessage(db *sql.DB, topic_id int, user_id int, message_content string) error {
-	_, err := db.Exec("INSERT INTO Topics (post_id, user_id, message_content) VALUES (?, ?, ?)", topic_id, user_id, message_content)
+	_, err := db.Exec("INSERT INTO ChatMessage (post_id, user_id, message_content) VALUES (?, ?, ?)", topic_id, user_id, message_content)
 	if err != nil {
 		log.Println("Error creating message:", err)
 		return err
