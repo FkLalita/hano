@@ -13,9 +13,12 @@ import (
 )
 
 func CreateUserHandler(db *sql.DB, e echo.Context) error {
-	username := e.FormValue("username")
-	models.CreateUser(db, username)
+	if e.Request().Method == http.MethodPost {
+		username := e.FormValue("username")
+		models.CreateUser(db, username)
+		return e.Redirect(http.StatusSeeOther, "/")
+	}
 
-	return utils.Render(e, http.StatusOK, templates.Username(), )
+	return utils.Render(e, http.StatusOK, templates.Username())
 
 }

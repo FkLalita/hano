@@ -23,10 +23,10 @@ func CreateMessage(db *sql.DB, topic_id int, user_id int, message_content string
 }
 
 // GetMessages retrieves all topics from the database.
-func GetMessages(db *sql.DB) ([]Message, error) {
+func GetMessages(db *sql.DB, post_id int) ([]Message, error) {
 	var messages []Message
 
-	rows, err := db.Query("SELECT  post_id, user_id, message_content, created_at FROM ChatMessage")
+	rows, err := db.Query("SELECT  post_id, user_id, message_content, created_at FROM ChatMessage WHERE post_id = ?", post_id)
 	if err != nil {
 		log.Fatal(err)
 	}

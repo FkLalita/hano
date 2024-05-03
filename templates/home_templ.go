@@ -29,7 +29,7 @@ func Username() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Welcome</h1><form id=\"usernameForm\" hx-post=\"/username\"><label for=\"username\">Enter Username:</label><br><input type=\"text\" id=\"username\" name=\"username\" required><br><button type=\"submit\">Submit</button></form><!-- Include HTMX library --><script src=\"node_modules/htmx.org/dist/htmx.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Welcome</h1><form id=\"usernameForm\" hx-post=\"/username\"><label for=\"username\">Enter Username:</label><br><input type=\"text\" id=\"username\" name=\"username\" required><br><button type=\"submit\">Submit</button></form><!-- Include HTMX library --><script src=\"/node_modules/htmx.org/dist/htmx.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

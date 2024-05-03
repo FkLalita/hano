@@ -41,6 +41,9 @@ func main() {
 	e.POST("/username", func(e echo.Context) error {
 		return handlers.CreateUserHandler(db, e)
 	})
+	e.GET("username", func(e echo.Context) error {
+		return handlers.CreateUserHandler(db, e)
+	})
 
 	e.GET("/", func(e echo.Context) error {
 		return handlers.GetTopicsHandler(db, e)
@@ -58,7 +61,7 @@ func main() {
 		return handlers.GetMessagesHandlers(db, e)
 	})
 	e.POST("/topics/:id/messages", func(e echo.Context) error {
-		return handlers.SendMessagesHandlers(db, e)
+		return handlers.GetMessagesHandlers(db, e)
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))

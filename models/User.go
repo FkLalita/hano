@@ -10,7 +10,7 @@ type User struct {
 }
 
 func CreateUser(db *sql.DB, username string) {
-	_, err := db.Exec("INSERT INTO User (user_name) VALUES (?)", username)
+	_, err := db.Exec("INSERT INTO Users (user_name) VALUES (?)", username)
 	if err != nil {
 		log.Fatal(err)
 	}

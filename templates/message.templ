@@ -7,22 +7,18 @@ import (
 
 templ GetMessage(messages []models.Message, post_id int) {
  <!-- for _, m := range messages {  -->
-    <div class="chatSection">
+    <div id="chatSection">
       <!-- Existing chat rendered here -->
-      <p>hello</p>
-      <ul>
+      <p>chatr</p>
+      
 
-          <ol class="chatList" hx-get={fmt.Sprintf( "/topics/%d/messages", post_id )}>
-            <!-- HTMX will populate this list with comments -->
-          </ol>
-      </ul>
+          
+    
+      <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )} hx-target="#chatSection">
+        <input type="text" name="message" required/>
+        <button type="submit">Submit</button>
+      </form>
     </div>
-
-    <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )}>
-      <input type="text" name="message" required/>
-      <button type="submit">Submit</button>
-    </form>
-   
 
     <!-- Include HTMX library -->
     <script src="/node_modules/htmx.org/dist/htmx.js"></script>
