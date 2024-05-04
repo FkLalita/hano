@@ -7,6 +7,8 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 
 	"github.com/FkLalita/hano/handlers"
@@ -34,6 +36,9 @@ func main() {
 		fmt.Println("Connection successful!")
 	}
 	e := echo.New()
+
+	// change later
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
 	// Serve static files from the node_modules directory
 	e.Static("/node_modules", "node_modules")

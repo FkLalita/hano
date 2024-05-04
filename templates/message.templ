@@ -6,13 +6,16 @@ import (
 )
 
 templ GetMessage(messages []models.Message, post_id int) {
- <!-- for _, m := range messages {  -->
     <div id="chatSection">
       <!-- Existing chat rendered here -->
       <p>chatr</p>
       
-
-          
+        for  _, m := range messages {
+          <ul id="chatList-{m.TopicID}" hx-get={fmt.Sprintf("/topics/%d/messages", m.TopicID)}>
+            <!-- HTMX will populate this list with comments -->
+            <li>{ m.MessageContent }</li>
+          </ul>
+          }
     
       <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )} hx-target="#chatSection">
         <input type="text" name="message" required/>
