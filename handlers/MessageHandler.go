@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"database/sql"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/FkLalita/hano/models"
 	"github.com/FkLalita/hano/templates"
 	"github.com/FkLalita/hano/utils"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -28,7 +28,7 @@ func GetMessagesHandlers(db *sql.DB, e echo.Context) error {
 	}
 	messages, err := models.GetMessages(db, post_id)
 	if err != nil {
-		log.Println(err)
+		e.Logger().Error(err)
 		// If there's an error retrieving messages, return an internal server error response
 		return e.String(http.StatusInternalServerError, "Failed to retrieve messages from the database")
 	}

@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/FkLalita/hano/handlers"
 	"github.com/FkLalita/hano/utils"
@@ -39,6 +40,8 @@ func main() {
 
 	// change later
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
+
+	e.Use(middleware.Logger())
 
 	// Serve static files from the node_modules directory
 	e.Static("/node_modules", "node_modules")
