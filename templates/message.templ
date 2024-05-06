@@ -17,7 +17,7 @@ templ GetMessage(messages []models.Message, post_id int) {
           </li>
           }
     
-      <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )} hx-target="#chatSection">
+      <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )} >
         <input type="text" name="message" id="message-input" required/>
         <button type="submit" id="send-button" >Submit</button>
       </form>
@@ -27,13 +27,32 @@ templ GetMessage(messages []models.Message, post_id int) {
     <script src="/node_modules/htmx.org/dist/htmx.js"></script>
     <script>
       console.log("het test");
-      alert("het");
+      
       const socket = new WebSocket("ws://localhost:8080/ws");
 
       socket.onopen = function()  {
         console.log("WebSocket connection opened!");
       };
 
+      socket.addEventListener("message", (event) => {
+        console.log("Received message:", event.data);
+        const data = JSON.parse(event.data);
+        console.log(data)
+        });
+
+      function sendMessage() {
+        const messageInput = document.getElementById("message-input");
+        const message = messageInput.value.trim();
+
+        if (message !== "") {
+            socket.send(message);
+
+            messageInput.value = "";
+          }
+      } 
+
+      const sendButton = document.getElementById("send-button");
+      sendButton.addEventListener("click", sendMessage);
 
       socket.onclose = function(event) {
         console.log("WebSocket connection closed:", event);
