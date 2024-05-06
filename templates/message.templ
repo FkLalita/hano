@@ -11,20 +11,39 @@ templ GetMessage(messages []models.Message, post_id int) {
       <p>chatr</p>
       
         for  _, m := range messages {
-          <ul id="chatList-{m.TopicID}" hx-get={fmt.Sprintf("/topics/%d/messages", m.TopicID)}>
+          <li id="chatList-{m.TopicID}" hx-get={fmt.Sprintf("/topics/%d/messages", m.TopicID)}>
             <!-- HTMX will populate this list with comments -->
-            <li>{ m.MessageContent }</li>
-          </ul>
+            { m.MessageContent }
+          </li>
           }
     
       <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )} hx-target="#chatSection">
-        <input type="text" name="message" required/>
-        <button type="submit">Submit</button>
+        <input type="text" name="message" id="message-input" required/>
+        <button type="submit" id="send-button" >Submit</button>
       </form>
     </div>
 
     <!-- Include HTMX library -->
     <script src="/node_modules/htmx.org/dist/htmx.js"></script>
+    <script>
+      console.log("het test");
+      alert("het");
+      const socket = new WebSocket("ws://localhost:8080/ws");
+
+      socket.onopen = function()  {
+        console.log("WebSocket connection opened!");
+      };
+
+
+      socket.onclose = function(event) {
+        console.log("WebSocket connection closed:", event);
+      };
+
+      socket.onerror = function(error) {
+        console.error("WebSocket connection error:", error);
+      };
+         
+    </script>
+
 
 }
-

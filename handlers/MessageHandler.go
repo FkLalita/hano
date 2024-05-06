@@ -24,6 +24,7 @@ func GetMessagesHandlers(db *sql.DB, e echo.Context) error {
 		if err != nil {
 			return e.String(http.StatusInternalServerError, "Failed to send message")
 		}
+		broadcast(content, e)
 
 	}
 	messages, err := models.GetMessages(db, post_id)

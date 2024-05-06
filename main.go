@@ -46,6 +46,10 @@ func main() {
 	// Serve static files from the node_modules directory
 	e.Static("/node_modules", "node_modules")
 
+	e.GET("/ws", func(e echo.Context) error {
+		return handlers.HandleWebSocket(e, db)
+	})
+
 	e.POST("/username", func(e echo.Context) error {
 		return handlers.CreateUserHandler(db, e)
 	})

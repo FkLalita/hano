@@ -33,7 +33,7 @@ func GetMessage(messages []models.Message, post_id int) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, m := range messages {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<ul id=\"chatList-{m.TopicID}\" hx-get=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li id=\"chatList-{m.TopicID}\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -46,20 +46,20 @@ func GetMessage(messages []models.Message, post_id int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><!-- HTMX will populate this list with comments --><li>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><!-- HTMX will populate this list with comments -->")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(m.MessageContent)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 16, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 16, Col: 30}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</li></ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -77,7 +77,7 @@ func GetMessage(messages []models.Message, post_id int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#chatSection\"><input type=\"text\" name=\"message\" required> <button type=\"submit\">Submit</button></form></div><!-- Include HTMX library --><script src=\"/node_modules/htmx.org/dist/htmx.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#chatSection\"><input type=\"text\" name=\"message\" id=\"message-input\" required> <button type=\"submit\" id=\"send-button\" hx-trigger=\"send-button\">send</button></form></div><!-- Include HTMX library --><script src=\"/node_modules/htmx.org/dist/htmx.js\"></script><script>\n      const socket = new WebSocket(\"ws://localhost:8080/ws\"); \n      document.getElementById(\"send-button\").addEventListener(\"click\", function() {\n      // Check if the connection is open before sending anything\n      if (socket.readyState === WebSocket.OPEN) {\n    // Send a message if the connection is open (replace with your actual message)\n      socket.send(\"Hello from client!\");\n      } else {\n        console.warn(\"WebSocket connection not open yet.\");\n      }\n\n      });   \n\n      \n      </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

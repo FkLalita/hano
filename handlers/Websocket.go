@@ -1,11 +1,16 @@
 package handlers
 
 import (
-	"github.com/gorilla/websocket"
-  "github.com/labstack/echo/v4"
+	"database/sql"
+	"fmt"
+	"strconv"
 
-  "net/http"
-  "sync"
+	"github.com/FkLalita/hano/models"
+	"github.com/gorilla/websocket"
+	"github.com/labstack/echo/v4"
+
+	"net/http"
+	"sync"
 )
 
 var upgrader = websocket.Upgrader{
@@ -17,35 +22,58 @@ var upgrader = websocket.Upgrader{
 }
 
 var (
-    connections = make(map[int]*websocket.Conn)
-    clientLock          sync.Mutex
+	connections = make(map[*websocket.Conn]int)
+	clientsLock sync.Mutex
+	userCounter int
 )
 
-
-func HandleWebSocket(e echo.Context) error {
-  conn, err := upgrader.Upgrade(e.Response(), e.Request(), nil)
+func HandleWebSocket(e echo.Context, db *sql.DB) error {
+	conn, err := upgrader.Upgrade(e.Response(), e.Request(), nil)
 	if err != nil {
-		return err
+		e.Logger().Error(err)
 	}
 	defer conn.Close()
-  post_id, _ := strconv.Atoi(e.Param("id"))
+	post_id, _ := strconv.Atoi(e.Param("id"))
 
 	user_id := 1
-  connections[user_id] = conn
-	
+	clientsLock.Lock()
+	connections[conn] = user_id
 
-		
+	for {
+		_, p, err := conn.ReadMessage()
+		if err != nil {
+			e.Logger().Error(err)
+			break
+		}
+		fmt.Println(string(p))
 
-  for {
-    _, p , err := conn.ReadMessage()
-    if err != nil {
-      e.Logger().Error(err)
-    }
+		err = models.CreateMessage(db, post_id, user_id, string(p))
+		if err != nil {
+			e.Logger().Error(err)
+			break
+		}
+		broadcast(string(p), e)
+	}
+	delete(connections, conn)
+	clientsLock.Unlock()
 
-    err := models.CreateMessage(db, post_id, user_id, string(p))
-    if err != nil {
-      return e.Logger().Error(err)
-    }
-  }   
-  
+	return nil
+
+}
+
+func broadcast(msg string, e echo.Context) {
+	clientsLock.Lock()
+	defer clientsLock.Unlock()
+
+	for client := range connections {
+
+		// Send the content directly
+		err := client.WriteJSON(msg)
+		if err != nil {
+			e.Logger().Error(err)
+			client.Close()
+			delete(connections, client)
+
+		}
+	}
 }
