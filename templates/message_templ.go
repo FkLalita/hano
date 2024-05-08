@@ -64,20 +64,20 @@ func GetMessage(messages []models.Message, post_id int) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form class=\"chatForm\" hx-post=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"chat\"><p>test chat should show here</p></div><form class=\"chatForm\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/topics/%d/messages", post_id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 20, Col: 82}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 25, Col: 82}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input type=\"text\" name=\"message\" id=\"message-input\" required> <button type=\"submit\" id=\"send-button\">Submit</button></form></div><!-- Include HTMX library --><script src=\"/node_modules/htmx.org/dist/htmx.js\"></script><script>\n      console.log(\"het test\");\n      \n      const socket = new WebSocket(\"ws://localhost:8080/ws\");\n\n      socket.onopen = function()  {\n        console.log(\"WebSocket connection opened!\");\n      };\n\n      socket.addEventListener(\"message\", (event) => {\n        console.log(\"Received message:\", event.data);\n        const data = JSON.parse(event.data);\n        console.log(data)\n        });\n\n      function sendMessage() {\n        const messageInput = document.getElementById(\"message-input\");\n        const message = messageInput.value.trim();\n\n        if (message !== \"\") {\n            socket.send(message);\n\n            messageInput.value = \"\";\n          }\n      } \n\n      const sendButton = document.getElementById(\"send-button\");\n      sendButton.addEventListener(\"click\", sendMessage);\n\n      socket.onclose = function(event) {\n        console.log(\"WebSocket connection closed:\", event);\n      };\n\n      socket.onerror = function(error) {\n        console.error(\"WebSocket connection error:\", error);\n      };\n         \n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input type=\"text\" name=\"message\" id=\"message-input\" required> <button type=\"submit\" id=\"send-button\">Submit</button></form></div><!-- Include HTMX library --><script src=\"/node_modules/htmx.org/dist/htmx.js\"></script><script>\n      console.log(\"het test\");\n      \n      const socket = new WebSocket(\"ws://localhost:8080/ws\");\n\n      socket.onopen = function()  {\n        console.log(\"WebSocket connection opened!\");\n      };\n\n      socket.addEventListener(\"message\", (event) => {\n        console.log(\"Received message:\", event.data);\n        const data = JSON.parse(event.data);\n        const chatDiv = document.getElementById(\"chat\");\n        const message = document.createElement(\"p\");\n        console.log(\"data -\", data)\n        console.log(\"message before i added content \",message)\n        message.textContent = data.content;\n        console.log(\"after \", message)\n        chatDiv.appendChild(message);\n        console.log(\"after i append it to chatDiv\",message)\n        console.log(data.content)\n      });\n\n      function sendMessage() {\n        const messageInput = document.getElementById(\"message-input\");\n        const message = messageInput.value.trim();\n\n        if (message !== \"\") {\n            socket.send(message);\n\n            messageInput.value = \"\";\n          }\n      } \n\n      const sendButton = document.getElementById(\"send-button\");\n      sendButton.addEventListener(\"click\", sendMessage);\n\n      socket.onclose = function(event) {\n        console.log(\"WebSocket connection closed:\", event);\n      };\n\n      socket.onerror = function(error) {\n        console.error(\"WebSocket connection error:\", error);\n      };\n         \n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

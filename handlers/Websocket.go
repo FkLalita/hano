@@ -13,6 +13,10 @@ import (
 	"sync"
 )
 
+type Message struct {
+	Content string `json:"content"`
+}
+
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -34,10 +38,12 @@ func HandleWebSocket(e echo.Context, db *sql.DB) error {
 	}
 	defer conn.Close()
 	post_id, _ := strconv.Atoi(e.Param("id"))
+	fmt.Println(post_id)
 
 	user_id := 1
 	clientsLock.Lock()
 	connections[conn] = user_id
+	clientsLock.Unlock()
 
 	for {
 		_, p, err := conn.ReadMessage()
@@ -45,15 +51,21 @@ func HandleWebSocket(e echo.Context, db *sql.DB) error {
 			e.Logger().Error(err)
 			break
 		}
-		fmt.Println(string(p))
+		strP := string(p)
 
-		err = models.CreateMessage(db, post_id, user_id, string(p))
+		err = models.CreateMessage(db, 4, user_id, strP)
 		if err != nil {
+			fmt.Println(err)
 			e.Logger().Error(err)
 			break
 		}
-		broadcast(string(p), e)
+		msg := Message{
+			Content: strP,
+		}
+
+		broadcast(msg, e)
 	}
+	clientsLock.Lock()
 	delete(connections, conn)
 	clientsLock.Unlock()
 
@@ -61,7 +73,7 @@ func HandleWebSocket(e echo.Context, db *sql.DB) error {
 
 }
 
-func broadcast(msg string, e echo.Context) {
+func broadcast(msg Message, e echo.Context) {
 	clientsLock.Lock()
 	defer clientsLock.Unlock()
 

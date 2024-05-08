@@ -16,6 +16,11 @@ templ GetMessage(messages []models.Message, post_id int) {
             { m.MessageContent }
           </li>
           }
+          <div id="chat" >
+            <p>
+                test chat should show here
+            </p>
+          </div>
     
       <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )} >
         <input type="text" name="message" id="message-input" required/>
@@ -37,8 +42,16 @@ templ GetMessage(messages []models.Message, post_id int) {
       socket.addEventListener("message", (event) => {
         console.log("Received message:", event.data);
         const data = JSON.parse(event.data);
-        console.log(data)
-        });
+        const chatDiv = document.getElementById("chat");
+        const message = document.createElement("p");
+        console.log("data -", data)
+        console.log("message before i added content ",message)
+        message.textContent = data.content;
+        console.log("after ", message)
+        chatDiv.appendChild(message);
+        console.log("after i append it to chatDiv",message)
+        console.log(data.content)
+      });
 
       function sendMessage() {
         const messageInput = document.getElementById("message-input");
