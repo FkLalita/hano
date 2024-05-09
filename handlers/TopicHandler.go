@@ -7,6 +7,7 @@ import (
 	"github.com/FkLalita/hano/models"
 	"github.com/FkLalita/hano/templates"
 	"github.com/FkLalita/hano/utils"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
@@ -24,16 +25,24 @@ func GetTopicsHandler(db *sql.DB, e echo.Context) error {
 }
 
 func CreateTopicHandler(db *sql.DB, e echo.Context) error {
-	if e.Request().Method == http.MethodPost {
-		title := e.FormValue("title")
-		description := e.FormValue("description")
-		err := models.CreateTopic(db, title, description)
-		if err != nil {
-			return e.String(http.StatusInternalServerError, "Failed to create topic")
-		}
-		e.Redirect(http.StatusSeeOther, "/")
-
-	}
+  username, err := utils.GetSession(e)
+  if err != nil {
+    e.Logger().Error(err)
+  }
+  if username == "" {
+    e.Redirect(http.StatusSeeOther, "/username")
+  } else {
+	    if e.Request().Method == http.MethodPost {
+		    title := e.FormValue("title")
+		    description := e.FormValue("description")
+    
+		    err = models.CreateTopic(db, title, description, username)
+		    if err != nil {
+			    return e.String(http.StatusInternalServerError, "Failed to create topic")
+	    	}
+		  e.Redirect(http.StatusSeeOther, "/")
+      }
+    }
 	return utils.Render(e, http.StatusOK, templates.CreateTopic())
 
 }

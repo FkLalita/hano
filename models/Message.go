@@ -9,12 +9,13 @@ import (
 type Message struct {
 	TopicID        int
 	UserID         int
+	UserName       string
 	MessageContent string
 	CreatedAt      time.Time
 }
 
-func CreateMessage(db *sql.DB, topic_id int, user_id int, message_content string) error {
-	_, err := db.Exec("INSERT INTO ChatMessage (post_id, user_id, message_content) VALUES (?, ?, ?)", topic_id, user_id, message_content)
+func CreateMessage(db *sql.DB, topic_id int, user_id int, username string, message_content string) error {
+	_, err := db.Exec("INSERT INTO ChatMessage (post_id, user_id,username, message_content) VALUES (?, ?, ?, ?)", topic_id, user_id, username, message_content)
 	if err != nil {
 		log.Println("Error creating message:", err)
 		return err
@@ -26,7 +27,7 @@ func CreateMessage(db *sql.DB, topic_id int, user_id int, message_content string
 func GetMessages(db *sql.DB, post_id int) ([]Message, error) {
 	var messages []Message
 
-	rows, err := db.Query("SELECT  post_id, user_id, message_content, created_at FROM ChatMessage WHERE post_id = ?", post_id)
+	rows, err := db.Query("SELECT  post_id, user_id,username, message_content, created_at FROM ChatMessage WHERE post_id = ?", post_id)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,7 +37,7 @@ func GetMessages(db *sql.DB, post_id int) ([]Message, error) {
 		var m Message
 		var createdAtStr []uint8 // Temporary variable to store the string from the database.
 
-		if err := rows.Scan(&m.TopicID, &m.UserID, &m.MessageContent, &createdAtStr); err != nil {
+		if err := rows.Scan(&m.TopicID, &m.UserID, &m.UserName, &m.MessageContent, &createdAtStr); err != nil {
 			log.Println(err)
 			continue
 		}

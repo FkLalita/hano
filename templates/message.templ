@@ -11,10 +11,10 @@ templ GetMessage(messages []models.Message, post_id int) {
       <p>chatr</p>
       
         for  _, m := range messages {
-          <li id="chatList-{m.TopicID}" hx-get={fmt.Sprintf("/topics/%d/messages", m.TopicID)}>
+          <ul id="chatList-{m.TopicID}" hx-get={fmt.Sprintf("/topics/%d/messages", m.TopicID)}>
             <!-- HTMX will populate this list with comments -->
-            { m.MessageContent }
-          </li>
+            <li>{ m.MessageContent }</li>
+          </ul>
           }
           <div id="chat" >
             <p>
@@ -44,13 +44,10 @@ templ GetMessage(messages []models.Message, post_id int) {
         const data = JSON.parse(event.data);
         const chatDiv = document.getElementById("chat");
         const message = document.createElement("p");
-        console.log("data -", data)
-        console.log("message before i added content ",message)
+
         message.textContent = data.content;
-        console.log("after ", message)
+        
         chatDiv.appendChild(message);
-        console.log("after i append it to chatDiv",message)
-        console.log(data.content)
       });
 
       function sendMessage() {

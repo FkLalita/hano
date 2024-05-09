@@ -11,7 +11,7 @@ func CreateTable(db *sql.DB) error {
 	_, err := db.Exec(`
        CREATE TABLE IF NOT EXISTS Users (
             user_id INT PRIMARY KEY AUTO_INCREMENT,
-            user_name VARCHAR(50)
+            username VARCHAR(50)
       );    
   `)
 
@@ -23,11 +23,13 @@ func CreateTable(db *sql.DB) error {
 	_, err = db.Exec(`
         CREATE TABLE IF NOT EXISTS Topics  (
             post_id INT PRIMARY KEY AUTO_INCREMENT,
-            user_id INT,
             title VARCHAR(255),
             description TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+            user_id INT,
+            username VARCHAR,
+            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (username) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE
         );
     `)
 
@@ -41,10 +43,12 @@ func CreateTable(db *sql.DB) error {
             message_id INT PRIMARY KEY AUTO_INCREMENT,
             post_id INT,
             user_id INT,
-            message_content TEXT  ,
+            username VARCHAR,
+            message_content TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (post_id) REFERENCES Topics(post_id) ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (username) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE,
       );
   `)
 	if err != nil {
