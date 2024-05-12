@@ -18,6 +18,7 @@ func CreateSession(e echo.Context, username string) error {
 		Path:     "/",
 		MaxAge:   86400 * 7,
 		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
 	}
 	sess.Values["username"] = username
 	if err := sess.Save(e.Request(), e.Response()); err != nil {

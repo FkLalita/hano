@@ -6,6 +6,8 @@ import (
 )
 
 templ GetMessage(messages []models.Message, post_id int) {
+    <html>
+    @Base()
     <div id="chatSection">
       <!-- Existing chat rendered here -->
       <p>chatr</p>
@@ -27,9 +29,10 @@ templ GetMessage(messages []models.Message, post_id int) {
         <button type="submit" id="send-button" >Submit</button>
       </form>
     </div>
+    </html>
 
     <!-- Include HTMX library -->
-    <script src="/node_modules/htmx.org/dist/htmx.js"></script>
+    <script src="/static/node_modules/htmx.org/dist/htmx.js"></script>
     <script>
       console.log("het test");
       
@@ -73,6 +76,6 @@ templ GetMessage(messages []models.Message, post_id int) {
       };
          
     </script>
-
+  
 
 }

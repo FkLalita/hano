@@ -11,7 +11,7 @@ func CreateTable(db *sql.DB) error {
 	_, err := db.Exec(`
        CREATE TABLE IF NOT EXISTS Users (
             user_id INT PRIMARY KEY AUTO_INCREMENT,
-            username VARCHAR(50)
+            username VARCHAR(50) NOT NULL
       );    
   `)
 
@@ -27,11 +27,9 @@ func CreateTable(db *sql.DB) error {
             description TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             user_id INT,
-            username VARCHAR,
-            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (username) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE
-        );
-    `)
+            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+          );
+  `)
 
 	if err != nil {
 		fmt.Println("Error creating  topic table:", err)
@@ -43,13 +41,11 @@ func CreateTable(db *sql.DB) error {
             message_id INT PRIMARY KEY AUTO_INCREMENT,
             post_id INT,
             user_id INT,
-            username VARCHAR,
             message_content TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (post_id) REFERENCES Topics(post_id) ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (username) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE,
-      );
+            FOREIGN KEY (user_id) REFERENCES Users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+          );
   `)
 	if err != nil {
 		fmt.Println("Error creating  chat table:", err)

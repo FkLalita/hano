@@ -44,7 +44,7 @@ func main() {
 	e.Use(middleware.Logger())
 
 	// Serve static files from the node_modules directory
-	e.Static("/node_modules", "node_modules")
+	e.Static("/static", "static")
 
 	e.GET("/ws", func(e echo.Context) error {
 		return handlers.HandleWebSocket(e, db)
@@ -53,7 +53,7 @@ func main() {
 	e.POST("/username", func(e echo.Context) error {
 		return handlers.CreateUserHandler(db, e)
 	})
-	e.GET("username", func(e echo.Context) error {
+	e.GET("/username", func(e echo.Context) error {
 		return handlers.CreateUserHandler(db, e)
 	})
 
@@ -61,6 +61,7 @@ func main() {
 		return handlers.GetTopicsHandler(db, e)
 
 	})
+
 	e.POST("/create", func(e echo.Context) error {
 		return handlers.CreateTopicHandler(db, e)
 	})

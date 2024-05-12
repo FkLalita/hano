@@ -12,13 +12,16 @@ type Topic struct {
 	Description string
 	CreatedAt   time.Time
 	UserID      int
-	UserName    string
 }
 
 // CreateTopic creates a new topic in the database.
 func CreateTopic(db *sql.DB, title string, description string, username string) error {
-	user_id := db.Query("SELECT user_id FROM Users WHERE username = ?", username)
-	_, err := db.Exec("INSERT INTO Topics (title, description, user_id, username) VALUES (?, ?, ?, ?)", title, description, user_id, username)
+	var user_id int
+	err := db.QueryRow("SELECT user_id FROM Users WHERE username = ?", username).Scan(&user_id)
+	if err != nil {
+		log.Print("errror getting user_id", err)
+	}
+	_, err = db.Exec("INSERT INTO Topics (title, description, user_id) VALUES (?, ?, ?)", title, description, user_id)
 	if err != nil {
 		log.Println("Error creating topic:", err)
 		return err
@@ -40,7 +43,7 @@ func GetTopics(db *sql.DB) ([]Topic, error) {
 		var t Topic
 		var createdAtStr []uint8 // Temporary variable to store the string from the database.
 
-		if err := rows.Scan(&t.TopicID, &t.Title, &t.Description, &createdAtStr, &t.UserID, &t.UserName); err != nil {
+		if err := rows.Scan(&t.TopicID, &t.Title, &t.Description, &createdAtStr, &t.UserID); err != nil {
 			log.Println(err)
 			continue
 		}

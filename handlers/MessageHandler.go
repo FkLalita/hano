@@ -12,10 +12,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+var PostId *int
+
 func GetMessagesHandlers(db *sql.DB, e echo.Context) error {
 	// Retrieve all messages from the database
 
 	post_id, _ := strconv.Atoi(e.Param("id"))
+	PostId = &post_id
 	// the creation has been moved to websocket
 	//if e.Request().Method == http.MethodPost {
 

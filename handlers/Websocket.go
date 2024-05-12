@@ -3,9 +3,9 @@ package handlers
 import (
 	"database/sql"
 	"fmt"
-	"strconv"
 
 	"github.com/FkLalita/hano/models"
+	"github.com/FkLalita/hano/utils"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
 
@@ -32,15 +32,22 @@ var (
 )
 
 func HandleWebSocket(e echo.Context, db *sql.DB) error {
+
 	conn, err := upgrader.Upgrade(e.Response(), e.Request(), nil)
 	if err != nil {
 		e.Logger().Error(err)
 	}
 	defer conn.Close()
-	post_id, _ := strconv.Atoi(e.Param("id"))
-	fmt.Println(post_id)
 
-	user_id := 1
+	fmt.Println("test", *PostId)
+	username, err := utils.GetSession(e)
+	if err != nil {
+		e.Logger().Error()
+
+	}
+
+	user_id := models.GetUserID(db, e, username)
+
 	clientsLock.Lock()
 	connections[conn] = user_id
 	clientsLock.Unlock()
@@ -53,7 +60,7 @@ func HandleWebSocket(e echo.Context, db *sql.DB) error {
 		}
 		strP := string(p)
 
-		err = models.CreateMessage(db, 4, user_id, strP)
+		err = models.CreateMessage(db, *PostId, user_id, strP)
 		if err != nil {
 			fmt.Println(err)
 			e.Logger().Error(err)

@@ -1,0 +1,25 @@
+body {
+  color: whitesmoke;
+  background-color:#132121;
+}
+
+.mainPage {
+  display: grid;
+  gap: 9px;
+  justify-content: center;
+}
+
+.topics {
+  border: 5px solid #1C6EA4;
+  width: 333px;
+  height: 222px;
+  gap: 9px;
+}
+
+.topics a {
+  background-color: darkblue;
+  border: 0.45px;
+  border-radius: 0.4px;
+}
+
+

@@ -8,6 +8,7 @@ import (
 )
 
 templ Username() {
+    @Base()
    <h1>Welcome</h1>
     <form id="usernameForm" hx-post="/username" >
 
@@ -18,26 +19,29 @@ templ Username() {
 
    
     <!-- Include HTMX library -->
-    <script src="/node_modules/htmx.org/dist/htmx.js"></script>
+    <script src="/static/node_modules/htmx.org/dist/htmx.js"></script>
 }
 
 
 
 templ Home(topics []models.Topic) {
-  <div>
+  <!Doctype HTML>
+  <html>
+  @Base()
+  <div class="mainPage">
     
     <p> hello </p>
     
       for _,i := range topics {
-           <ol> { i.Title  } </ol>
-            <p> { i.Description }
-            </p> 
-     
+          <div class="topics">
+            <h3> { i.Title  } </h3>
+            <p> { i.Description }</p>
+            
+            <a class="btn" href={templ.SafeURL ( fmt.Sprintf("/topics/%d/messages", i.TopicID) )} >Chat</a>
 
-        <p>
-          Enter chat
-        </p>
-        <a href={templ.SafeURL ( fmt.Sprintf("/topics/%d/messages", i.TopicID) )} >chat</a>
-      }
+          </div>
+          }
+
   </div>
+  </html>
 }
