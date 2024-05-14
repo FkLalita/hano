@@ -31,17 +31,24 @@ templ Home(topics []models.Topic) {
     <div class="mainPage">
       @Header()
       @SideBar()
-    
+       <main> 
         for _,i := range topics {
           <div class="topics">
+           <div class="user-info">
+              <span class="username">username</span>
+          </div>
+          <div class="post-content">
             <h3> { i.Title  } </h3>
             <p> { i.Description }</p>
-            
+          </div>
+          <div class="post-actions">
             <a class="btn" href={templ.SafeURL ( fmt.Sprintf("/topics/%d/messages", i.TopicID) )} >Chat</a>
-
+          </div>
           </div>
           }
+       </main>
 
-  </div>
-  </html>
+    </div>
+    
+    </html>
 }

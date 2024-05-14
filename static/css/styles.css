@@ -2,14 +2,73 @@ body {
   color: whitesmoke;
   background-color:#132121;
 }
-
-
-.btn {
-  background-color: darkblue;
-  height: 20px;
-  width: 60px;
-  border-radius: 10px;
+.mainPage {
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  grid-template-rows: 50px 1fr;
+}
+.sidebar {
+  grid-column: 1;
+  grid-row: 2 / 4;
+}
+header {
+  grid-column: 1/3;
+  grid-row: 1;
+}
+main {
+  grid-column: 2;
+  grid-row: 2;
 }
 
 
+.btn {
+background-color: darkblue;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: darkblue;
+  color: white;
+}
+
+.user-info {
+  display: flex;
+  align-items: center; /* Aligns avatar and username vertically */
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-size: 16px;
+}
+
+.topics {
+  background-color: black;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  display: grid; /* Enables grid layout for post sections */
+  grid-template-columns: 60px fit-content; /* Defines columns for avatar and post content */
+}
+
+
+.post-content {
+  font-size: 14px;
+  line-height: 1.5; /* Adjusts spacing between lines */
+}
+
+.post-actions {
+  margin-top: auto; /* Pushes actions section to the bottom */
+  display: flex;
+}
 
