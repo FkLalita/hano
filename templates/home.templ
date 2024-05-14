@@ -27,12 +27,12 @@ templ Username() {
 templ Home(topics []models.Topic) {
   <!Doctype HTML>
   <html>
-  @Base()
-  <div class="mainPage">
+  @Base() 
+    <div class="mainPage">
+      @Header()
+      @SideBar()
     
-    <p> hello </p>
-    
-      for _,i := range topics {
+        for _,i := range topics {
           <div class="topics">
             <h3> { i.Title  } </h3>
             <p> { i.Description }</p>
