@@ -156,10 +156,7 @@ form #description:active {
   o=verflow-y: scroll; 
 }
 
-.chat-ontainer {
-  height: 100%;
-  overflow-y: scroll;
-}
+
 
 #chat {
   grid-row: 2;
