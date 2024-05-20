@@ -36,56 +36,47 @@ func GetMessage(messages []models.Message, post_id int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"chatSection\"><!-- Existing chat rendered here --><p>chatr</p>")
+		templ_7745c5c3_Err = Header().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"chatSection\"><!-- Existing chat rendered here --><p>chatr</p><div id=\"chat\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, m := range messages {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<ul id=\"chatList-{m.TopicID}\" hx-get=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"chatBox\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/topics/%d/messages", m.TopicID))
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(m.MessageContent)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 16, Col: 93}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 20, Col: 48}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><!-- HTMX will populate this list with comments --><li>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(m.MessageContent)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 18, Col: 34}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</li></ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"chat\"><p>test chat should show here</p></div><form class=\"chatForm\" hx-post=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><form class=\"chatForm\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/topics/%d/messages", post_id))
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/topics/%d/messages", post_id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 27, Col: 82}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/message.templ`, Line: 26, Col: 82}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input type=\"text\" name=\"message\" id=\"message-input\" required> <button type=\"submit\" id=\"send-button\">Submit</button></form></div></html><!-- Include HTMX library --><script src=\"/static/node_modules/htmx.org/dist/htmx.js\"></script><script>\n      console.log(\"het test\");\n      \n      const socket = new WebSocket(\"ws://localhost:8080/ws\");\n\n      socket.onopen = function()  {\n        console.log(\"WebSocket connection opened!\");\n      };\n\n      socket.addEventListener(\"message\", (event) => {\n        console.log(\"Received message:\", event.data);\n        const data = JSON.parse(event.data);\n        const chatDiv = document.getElementById(\"chat\");\n        const message = document.createElement(\"p\");\n\n        message.textContent = data.content;\n        \n        chatDiv.appendChild(message);\n      });\n\n      function sendMessage() {\n        const messageInput = document.getElementById(\"message-input\");\n        const message = messageInput.value.trim();\n\n        if (message !== \"\") {\n            socket.send(message);\n\n            messageInput.value = \"\";\n          }\n      } \n\n      const sendButton = document.getElementById(\"send-button\");\n      sendButton.addEventListener(\"click\", sendMessage);\n\n      socket.onclose = function(event) {\n        console.log(\"WebSocket connection closed:\", event);\n      };\n\n      socket.onerror = function(error) {\n        console.error(\"WebSocket connection error:\", error);\n      };\n         \n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input type=\"text\" name=\"message\" id=\"message-input\" required> <button type=\"submit\" id=\"send-button\">Submit</button></form></div></html><!-- Include HTMX library --><script src=\"/static/node_modules/htmx.org/dist/htmx.js\"></script><script>\n      console.log(\"het test\");\n      \n      const socket = new WebSocket(\"ws://localhost:8080/ws\");\n\n      socket.onopen = function()  {\n        console.log(\"WebSocket connection opened!\");\n      };\n\n      socket.addEventListener(\"message\", (event) => {\n        console.log(\"Received message:\", event.data);\n        const data = JSON.parse(event.data);\n        const chatDiv = document.getElementByClass(\"chat\");\n        const message = document.createElement(\"li\");\n\n        message.class = \"chatBox\"\n        message.textContent = data.content;\n        \n        chatDiv.appendChild(message);\n      });\n\n\n      function sendMessage() {\n        const messageInput = document.getElementById(\"message-input\");\n        const message = messageInput.value.trim();\n\n        if (message !== \"\") {\n            socket.send(message);\n\n            messageInput.value = \"\";\n          }\n      } \n\n      const sendButton = document.getElementById(\"send-button\");\n      sendButton.addEventListener(\"click\", sendMessage);\n\n      socket.onclose = function(event) {\n        console.log(\"WebSocket connection closed:\", event);\n      };\n\n      socket.onerror = function(error) {\n        console.error(\"WebSocket connection error:\", error);\n      };\n         \n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

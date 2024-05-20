@@ -23,7 +23,19 @@ func CreateTopic() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>CreateTopic</h1><form id=\"topicForm\" action=\"/create\" method=\"post\"><label for=\"Topics\">Enter Name:</label><br><input type=\"text\" id=\"title\" name=\"title\" required><br><input type=\"text\" id=\"description\" name=\"description\"><br><button type=\"submit\">Submit</button></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Base().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Header().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"topicForm\" action=\"/create\" method=\"post\"><input type=\"text\" id=\"title\" name=\"title\" placeholder=\"Enter Topic Name\" required><br><textarea id=\"description\" name=\"description\" placeholder=\"Enter Your Description\" required></textarea><br><button type=\"submit\">Submit</button></form></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

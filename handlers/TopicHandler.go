@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 
 	"github.com/FkLalita/hano/models"
@@ -42,4 +43,17 @@ func CreateTopicHandler(db *sql.DB, e echo.Context) error {
 	}
 	return utils.Render(e, http.StatusOK, templates.CreateTopic())
 
+}
+
+func SearchTopic(db *sql.DB, e echo.Context) error {
+	query := e.QueryParam("search")
+	fmt.Println(query)
+	topics, err := models.SearchTopic(db, query)
+	if err != nil {
+		// If there's an error retrieving topics, return an internal server error response
+		return e.String(http.StatusInternalServerError, "Failed to retrieve topics from the database")
+	}
+	fmt.Println(topics)
+
+	return nil
 }

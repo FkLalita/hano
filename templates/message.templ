@@ -8,21 +8,20 @@ import (
 templ GetMessage(messages []models.Message, post_id int) {
     <html>
     @Base()
+    @Header()
+    
     <div id="chatSection">
       <!-- Existing chat rendered here -->
       <p>chatr</p>
       
+      <div id="chat">
         for  _, m := range messages {
-          <ul id="chatList-{m.TopicID}" hx-get={fmt.Sprintf("/topics/%d/messages", m.TopicID)}>
-            <!-- HTMX will populate this list with comments -->
-            <li>{ m.MessageContent }</li>
-          </ul>
-          }
-          <div id="chat" >
-            <p>
-                test chat should show here
-            </p>
-          </div>
+        
+          <li class="chatBox">{ m.MessageContent }</li>
+        }
+
+      </div>
+    
     
       <form class="chatForm" hx-post={fmt.Sprintf("/topics/%d/messages", post_id )} >
         <input type="text" name="message" id="message-input" required/>
@@ -45,13 +44,15 @@ templ GetMessage(messages []models.Message, post_id int) {
       socket.addEventListener("message", (event) => {
         console.log("Received message:", event.data);
         const data = JSON.parse(event.data);
-        const chatDiv = document.getElementById("chat");
-        const message = document.createElement("p");
+        const chatDiv = document.getElementByClass("chat");
+        const message = document.createElement("li");
 
+        message.class = "chatBox"
         message.textContent = data.content;
         
         chatDiv.appendChild(message);
       });
+
 
       function sendMessage() {
         const messageInput = document.getElementById("message-input");

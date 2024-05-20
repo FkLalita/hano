@@ -1,0 +1,116 @@
+body {
+  color: whitesmoke;
+  background-color:black;
+}
+.mainPage {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 2fr 5fr;
+  grid-template-rows: 50px 1fr;
+}
+.sidebar {
+  grid-column: 1;
+  grid-row:2 / 3;
+}
+header {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  
+  display: flex; /* Makes header elements display inline */
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  
+}
+main {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+
+.btn {
+  background-color: darkblue;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: blue;
+  color: white;
+}
+
+.user-info {
+  display: flex;
+  align-items: center; /* Aligns avatar and username vertically */
+}
+
+.username {
+  font-size: 16px;
+}
+
+.topics {
+  background-color: black;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  display: grid; /* Enables grid layout for post sections */
+  grid-template-columns: 60px fit-content; /* Defines columns for avatar and post content */
+}
+
+
+.post-content {
+  font-size: 14px;
+  line-height: 1.5; /* Adjusts spacing between lines */
+}
+.post-content p {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.post-actions {
+  margin-top: auto; /* Pushes actions section to the bottom */
+  display: flex;
+}
+
+ul { 
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 33px;
+  margin-left: auto;
+  
+ 
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  
+}
+
+form #title {
+  width: 333px;
+  flex-basis: 40px;
+  border-radius: 8px
+  
+}
+form #description {
+  width: 333px;
+  flex-basis: 100px;
+  border-radius: 10px;
+  background-color:#132121;;
+  color: white;
+}
+ 
+
+
+
+ 
+
+

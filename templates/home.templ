@@ -35,7 +35,7 @@ templ Home(topics []models.Topic) {
         for _,i := range topics {
           <div class="topics">
            <div class="user-info">
-              <span class="username">username</span>
+              <span class="username"> { i.UserName } </span>
           </div>
           <div class="post-content">
             <h3> { i.Title  } </h3>

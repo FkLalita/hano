@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 )
@@ -12,6 +13,7 @@ type Topic struct {
 	Description string
 	CreatedAt   time.Time
 	UserID      int
+	UserName    string
 }
 
 // CreateTopic creates a new topic in the database.
@@ -48,6 +50,53 @@ func GetTopics(db *sql.DB) ([]Topic, error) {
 			continue
 		}
 
+		err = db.QueryRow("SELECT username FROM Users WHERE user_id = ?", t.UserID).Scan(&t.UserName)
+		if err != nil {
+			fmt.Println(err)
+		}
+		// Convert the createdAtStr ([]uint8) to a string.
+		createdAtString := string(createdAtStr)
+
+		// Parse the createdAtString as time.Time.
+		parsedTime, err := time.Parse("2006-01-02 15:04:05", createdAtString)
+		if err != nil {
+			log.Println(err)
+		} else {
+			t.CreatedAt = parsedTime
+		}
+
+		topics = append(topics, t)
+	}
+
+	if err := rows.Err(); err != nil {
+		log.Println(err)
+	}
+	return topics, nil
+}
+
+// GetTopics retrieves all topics from the database.
+func SearchTopic(db *sql.DB, query string) ([]Topic, error) {
+	var topics []Topic
+
+	rows, err := db.Query("SELECT * FROM Topics WHERE title = ?", query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var t Topic
+		var createdAtStr []uint8 // Temporary variable to store the string from the database.
+
+		if err := rows.Scan(&t.TopicID, &t.Title, &t.Description, &createdAtStr, &t.UserID); err != nil {
+			log.Println(err)
+			continue
+		}
+
+		err = db.QueryRow("SELECT username FROM Users WHERE user_id = ?", t.UserID).Scan(&t.UserName)
+		if err != nil {
+			fmt.Println(err)
+		}
 		// Convert the createdAtStr ([]uint8) to a string.
 		createdAtString := string(createdAtStr)
 

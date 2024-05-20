@@ -1,14 +1,25 @@
 package templates
 
+import "fmt"
+
 templ Header() {
   <header>
-    <h2>Hano</h2>
+    <h2 class="logo"> Hano</h2>
+    <form method="get" >
+      <input type="search" name="search" placeholder="Search" class="search-bar" />
+    </form>  
+    <ul class="links">
+      <li><a href="/"> Explore </a></li>
+      <li><a class="btn" href={templ.SafeURL ( fmt.Sprintf("/create") )} >Create Chat</a></li>
+    </ul>
+    <br/>
   </header>
 }
+ 
 
 templ SideBar() {
   <div class="sidebar">
-    <a href="/home"> home</a>
+    <a href="/"> home</a>
     <a href="/home"> home</a>
     <a href="/home"> home</a>
     <a href="/home"> home</a>

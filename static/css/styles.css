@@ -1,28 +1,45 @@
 body {
   color: whitesmoke;
-  background-color:#132121;
+  background-color:black;
 }
 .mainPage {
   display: grid;
+  gap: 10px;
   grid-template-columns: 2fr 5fr;
   grid-template-rows: 50px 1fr;
 }
 .sidebar {
   grid-column: 1;
-  grid-row: 2 / 4;
+  grid-row:2 / 3;
 }
 header {
-  grid-column: 1/3;
+  grid-column: 1 / 3;
   grid-row: 1;
+  
+  display: flex; /* Makes header elements display inline */
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  
 }
 main {
   grid-column: 2;
   grid-row: 2;
 }
 
+.search-bar {
+  padding: 10px;
+  flex-grow: 0.;
+  background-color: #333;
+  border-style: none;
+  border-radius: 16px;
+  font-size: 16px;
+
+}
+
 
 .btn {
-background-color: darkblue;
+  background-color: darkblue;
   color: white;
   border-radius: 10px;
   padding: 10px 20px;
@@ -32,20 +49,13 @@ background-color: darkblue;
 }
 
 a:hover, a:active {
-  background-color: darkblue;
+  background-color: blue;
   color: white;
 }
 
 .user-info {
   display: flex;
   align-items: center; /* Aligns avatar and username vertically */
-}
-
-.user-info img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
 }
 
 .username {
@@ -66,9 +76,144 @@ a:hover, a:active {
   font-size: 14px;
   line-height: 1.5; /* Adjusts spacing between lines */
 }
+.post-content p {
+  font-size: 12px;
+  font-style: italic;
+}
 
 .post-actions {
   margin-top: auto; /* Pushes actions section to the bottom */
   display: flex;
 }
+
+ul { 
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 33px;
+  margin-left: auto;
+  
+ 
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  
+}
+
+form #title {
+  width: 333px;
+  flex-basis: 40px;
+  border-radius: 8px;
+  border: thin;
+  background-color: #132121;
+  color: white;
+  
+}
+form #description {
+  width: 333px;
+  flex-basis: 100px;
+  border-radius: 10px;
+  border-style: hidden;
+  background-color:#132121;;
+  color: white;
+}
+ 
+form button  {
+  background-color: blue;
+  color: white;
+  border-style: hidden;
+  border-radius: 10px;
+  width: 333px;
+  flex-basis: 40px; 
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+ 
+form #description:active {
+  border-style: hidden;
+}
+
+/* Overall Chat Section Styling */
+
+ #chatSection {      
+  align-items: center;
+
+  margin: 0 auto; /* Centers the chat section horizontally */
+  max-width: 800px; /* Sets a maximum width for responsiveness */
+  display: grid;
+  grid-template-rows: 2fr 8fr 1fr ; 
+  height: 80%;
+  background-color: #222;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  o=verflow-y: scroll; 
+}
+
+.chat-ontainer {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#chat {
+  grid-row: 2;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: #222;
+  border-radius: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex; /* Allow stacking messages vertically */
+  flex-direction: column;/* Stack messages top to bottom */
+
+}
+
+
+.chatBox {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #333;
+  display: flex; /* Allow alignment of sender and content */
+  align-items: center;
+  word-wrap: break-word; /* Allow text wrapping within message bubbles */
+  max-width: 40%;
+}
+
+.chatForm {
+  grid-row: 3;
+  align-self:   ;
+  max-width: 800px;
+  display: flex;
+  flex-direction: row;  
+}
+#message-input {
+  padding: 10px;
+  flex-grow: 0.90;
+  background-color: #333;
+  border-style: none;
+  border-radius: 16px;
+  font-size: 16px;
+}
+
+#send-button {
+  flex-grow: 0.10;
+  background-color: blue;
+  color: #fff;
+  height: 40px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+ 
+}
+
+
+
+
 
